@@ -12,7 +12,7 @@ config_version=5
 
 config/name="veilwalkers:shadows between worlds"
 config/features=PackedStringArray("4.6", "Forward Plus")
-config/icon="res://icon.svg"
+config/icon="uid://kfgr23g5pnx"
 
 [physics]
 
@@ -20,4 +20,5 @@ config/icon="res://icon.svg"
 
 [rendering]
 
+textures/canvas_textures/default_texture_filter=0
 rendering_device/driver.windows="d3d12"
