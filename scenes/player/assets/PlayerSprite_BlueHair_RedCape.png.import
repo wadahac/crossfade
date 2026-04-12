@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://bpblxsk1q2gvm"
-path="res://.godot/imported/Screenshot_2026_0410_153524-removebg-preview.png-6e16afd54aab0e7917887782ccebe614.ctex"
+uid="uid://bebsv4clronxc"
+path="res://.godot/imported/PlayerSprite_BlueHair_RedCape.png-d310beb9d4f1d5b7f9c22cb229d2cc7d.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://scenes/player/assets/Screenshot_2026_0410_153524-removebg-preview.png"
-dest_files=["res://.godot/imported/Screenshot_2026_0410_153524-removebg-preview.png-6e16afd54aab0e7917887782ccebe614.ctex"]
+source_file="res://scenes/player/assets/PlayerSprite_BlueHair_RedCape.png"
+dest_files=["res://.godot/imported/PlayerSprite_BlueHair_RedCape.png-d310beb9d4f1d5b7f9c22cb229d2cc7d.ctex"]
 
 [params]
 
