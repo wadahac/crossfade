@@ -30,6 +30,7 @@ func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 
 func _ready() -> void:
 	currentPlayerState = playerState.IDLE
+	as2d.play("idle_south")
 
 func _physics_process(delta: float) -> void:
 	print(direction)
