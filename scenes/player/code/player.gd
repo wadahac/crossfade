@@ -13,6 +13,8 @@ enum playerState{
 var direction : Vector2
 var currentPlayerState : playerState
 
+var speed = 100
+
 func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 	if input_vector == Vector2.ZERO:
 		return Vector2.ZERO
@@ -27,7 +29,7 @@ func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 
 
 func _ready() -> void:
-	pass
+	currentPlayerState = playerState.IDLE
 
 func _physics_process(delta: float) -> void:
 	print(direction)
@@ -35,6 +37,8 @@ func _physics_process(delta: float) -> void:
 	var cardinalDirection = get_cardinal_direction(direction)
 	
 	direction = Input.get_vector("left","right","up","down")
+	velocity = direction * speed * 75 * delta
+	move_and_slide()
 	
 	#setting up current state
 	if direction == Vector2(0,0) :

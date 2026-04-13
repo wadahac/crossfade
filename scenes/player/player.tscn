@@ -161,7 +161,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_east",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -184,7 +184,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_north",
-"speed": 5.0
+"speed": 8.0
 }, {
 "frames": [{
 "duration": 1.0,
@@ -207,7 +207,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk_south",
-"speed": 6.0
+"speed": 8.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_x7p2l"]
@@ -219,8 +219,8 @@ script = ExtResource("1_dovo2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=467257473]
 sprite_frames = SubResource("SpriteFrames_ioxgp")
-animation = &"idle_south"
-frame_progress = 0.26931837
+animation = &"walk_east"
+frame_progress = 0.49600923
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2112844515]
 position = Vector2(0, 2)
