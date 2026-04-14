@@ -4,6 +4,7 @@ extends CharacterBody2D
 @onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
 # Animation names
+#y use animation names when u cn just use as2d
 const ANIM_IDLE_SOUTH = "idle_south"
 const ANIM_IDLE_EAST = "idle_east"
 const ANIM_IDLE_NORTH = "idle_north"
@@ -11,15 +12,18 @@ const ANIM_WALK_SOUTH = "walk_south"
 const ANIM_WALK_EAST = "walk_east"
 const ANIM_WALK_NORTH = "walk_north"
 
+
+#ts very important
 enum PlayerState {
 	IDLE = 0,
 	WALKING = 1,
 }
 
+
 var direction: Vector2
-var last_direction: Vector2 = Vector2.DOWN  # Store last non-zero direction for idle animation
+var last_direction: Vector2 = Vector2.DOWN # Store last non-zero direction for idle animation
 var current_player_state: PlayerState
-var speed = 100
+var speed : int = 100
 const SPEED_MULTIPLIER = 100  # Adjust this to control how fast the character moves
 
 func get_cardinal_direction(input_vector: Vector2) -> Vector2:
@@ -58,8 +62,9 @@ func _ready() -> void:
 	animated_sprite.play(ANIM_IDLE_SOUTH)
 
 func _physics_process(delta: float) -> void:
-	# Get cardinal input (no diagonal movement)
+	# Get cardinal input (no diagonal movement)🥀
 	direction = get_cardinal_input()
+	"""#ihatecardinalmovement #justicefor8directionalmovement"""
 	
 	# Store last direction for idle animation
 	if direction != Vector2.ZERO:
@@ -77,9 +82,11 @@ func _physics_process(delta: float) -> void:
 	_update_animation(current_player_state, get_cardinal_direction(anim_direction))
 
 
+@warning_ignore("shadowed_variable")
 func _update_animation(state: PlayerState, direction: Vector2) -> void:
 	"""Update sprite animation based on state and direction."""
 	var animation_name: String
+	"""i personally like this ;] -- wadahac"""
 	var should_flip: bool = false
 	
 	match state:
