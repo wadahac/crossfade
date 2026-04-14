@@ -13,7 +13,6 @@ enum playerState{
 var direction : Vector2
 var currentPlayerState : playerState
 
-
 var speed = 100
 
 func get_cardinal_direction(input_vector: Vector2) -> Vector2:
@@ -27,56 +26,16 @@ func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 		# Vertical movement is dominant
 		return Vector2.DOWN if input_vector.y > 0 else Vector2.UP
 
-func returndirectioninwords(inputdirection):
-	match inputdirection:
-		Vector2.DOWN : return "south"
-		Vector2.UP : return "north"
-		Vector2.RIGHT : return "east"
-		Vector2.LEFT : return "west"
-		_ : pass
-	
 
-func idleFunction(inputVector):
-	var dir = returndirectioninwords(inputVector)
-	
-	#managing animation
-	if dir != "west":
-		as2d.play("idle" + dir)
-		as2d.flip_h = false
-	elif dir == "west":
-		as2d.play("idle" + dir)
-		as2d.flip_h = true
-	
-	#managing variables 
-	
-	
-
-func walkingFunction(inputVector):
-	var dir = returndirectioninwords(inputVector)
-	
-	#managing animation
-	if dir != "west":
-		as2d.play("idle" + dir)
-		as2d.flip_h = false
-	elif dir == "west":
-		as2d.play("idle" + dir)
-		as2d.flip_h = true
-	
-	#managing variables 
-	
-	
 
 func _ready() -> void:
 	currentPlayerState = playerState.IDLE
 	as2d.play("idle_south")
 
 func _physics_process(delta: float) -> void:
-	
-	var cardinalDirection
-	
 	print(direction)
 	print(currentPlayerState)
-	cardinalDirection = get_cardinal_direction(direction)
+	var cardinalDirection = get_cardinal_direction(direction)
 	
 	direction = Input.get_vector("left","right","up","down")
 	velocity = direction * speed * 75 * delta
@@ -91,5 +50,36 @@ func _physics_process(delta: float) -> void:
 	
 	#doing actions as per state
 	match currentPlayerState:
-		playerState.IDLE : idleFunction(cardinalDirection)
-		playerState.WALKING : walkingFunction(cardinalDirection)
+		playerState.IDLE : 
+			match cardinalDirection :
+				Vector2.DOWN:
+					as2d.flip_h = false
+					as2d.play("idle_south")
+				Vector2.RIGHT:
+					as2d.flip_h = false
+					as2d.play("idle_east")
+				Vector2.UP:
+					as2d.flip_h = false
+					as2d.play("idle_north")
+				Vector2.LEFT:
+					as2d.flip_h = true
+					as2d.play("idle_east")
+			
+		playerState.WALKING : 
+			match cardinalDirection :
+				Vector2.DOWN:
+					as2d.flip_h = false
+					as2d.play("walk_south")
+				Vector2.RIGHT:
+					as2d.flip_h = false
+					as2d.play("walk_east")
+				Vector2.UP:
+					as2d.flip_h = false
+					as2d.play("walk_north")
+				Vector2.LEFT:
+					as2d.flip_h = true
+					as2d.play("walk_east")
+			
+			
+		
+	
