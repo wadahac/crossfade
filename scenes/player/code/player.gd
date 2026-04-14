@@ -1,19 +1,26 @@
 extends CharacterBody2D
 
 
-@onready var as2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var animated_sprite: AnimatedSprite2D = $AnimatedSprite2D
 
+# Animation names
+const ANIM_IDLE_SOUTH = "idle_south"
+const ANIM_IDLE_EAST = "idle_east"
+const ANIM_IDLE_NORTH = "idle_north"
+const ANIM_WALK_SOUTH = "walk_south"
+const ANIM_WALK_EAST = "walk_east"
+const ANIM_WALK_NORTH = "walk_north"
 
-enum playerState{
-	
+enum PlayerState {
 	IDLE = 0,
 	WALKING = 1,
-	
 }
-var direction : Vector2
-var currentPlayerState : playerState
 
+var direction: Vector2
+var last_direction: Vector2 = Vector2.DOWN  # Store last non-zero direction for idle animation
+var current_player_state: PlayerState
 var speed = 100
+const SPEED_MULTIPLIER = 100  # Adjust this to control how fast the character moves
 
 func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 	if input_vector == Vector2.ZERO:
@@ -29,57 +36,58 @@ func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 
 
 func _ready() -> void:
-	currentPlayerState = playerState.IDLE
-	as2d.play("idle_south")
+	current_player_state = PlayerState.IDLE
+	animated_sprite.play(ANIM_IDLE_SOUTH)
 
 func _physics_process(delta: float) -> void:
-	print(direction)
-	print(currentPlayerState)
-	var cardinalDirection = get_cardinal_direction(direction)
+	# Get input and update direction
+	direction = Input.get_vector("left", "right", "up", "down")
 	
-	direction = Input.get_vector("left","right","up","down")
-	velocity = direction * speed * 75 * delta
+	# Store last direction for idle animation
+	if direction != Vector2.ZERO:
+		last_direction = direction
+	
+	# Update movement
+	velocity = direction * speed * delta * SPEED_MULTIPLIER
 	move_and_slide()
 	
-	#setting up current state
-	if direction == Vector2(0,0) :
-		currentPlayerState = playerState.IDLE 
-	elif direction != Vector2(0,0):
-		currentPlayerState = playerState.WALKING
+	# Update player state based on movement
+	current_player_state = PlayerState.WALKING if direction != Vector2.ZERO else PlayerState.IDLE
 	
+	# Update animation based on state and direction
+	var anim_direction = direction if direction != Vector2.ZERO else last_direction
+	_update_animation(current_player_state, get_cardinal_direction(anim_direction))
+
+
+func _update_animation(state: PlayerState, direction: Vector2) -> void:
+	"""Update sprite animation based on state and direction."""
+	var animation_name: String
+	var should_flip: bool = false
 	
-	#doing actions as per state
-	match currentPlayerState:
-		playerState.IDLE : 
-			match cardinalDirection :
+	match state:
+		PlayerState.IDLE:
+			match direction:
 				Vector2.DOWN:
-					as2d.flip_h = false
-					as2d.play("idle_south")
+					animation_name = ANIM_IDLE_SOUTH
 				Vector2.RIGHT:
-					as2d.flip_h = false
-					as2d.play("idle_east")
+					animation_name = ANIM_IDLE_EAST
 				Vector2.UP:
-					as2d.flip_h = false
-					as2d.play("idle_north")
+					animation_name = ANIM_IDLE_NORTH
 				Vector2.LEFT:
-					as2d.flip_h = true
-					as2d.play("idle_east")
-			
-		playerState.WALKING : 
-			match cardinalDirection :
-				Vector2.DOWN:
-					as2d.flip_h = false
-					as2d.play("walk_south")
-				Vector2.RIGHT:
-					as2d.flip_h = false
-					as2d.play("walk_east")
-				Vector2.UP:
-					as2d.flip_h = false
-					as2d.play("walk_north")
-				Vector2.LEFT:
-					as2d.flip_h = true
-					as2d.play("walk_east")
-			
-			
+					animation_name = ANIM_IDLE_EAST
+					should_flip = true
 		
+		PlayerState.WALKING:
+			match direction:
+				Vector2.DOWN:
+					animation_name = ANIM_WALK_SOUTH
+				Vector2.RIGHT:
+					animation_name = ANIM_WALK_EAST
+				Vector2.UP:
+					animation_name = ANIM_WALK_NORTH
+				Vector2.LEFT:
+					animation_name = ANIM_WALK_EAST
+					should_flip = true
 	
+	animated_sprite.flip_h = should_flip
+	animated_sprite.play(animation_name)
