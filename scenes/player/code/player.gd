@@ -34,14 +34,32 @@ func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 		return Vector2.DOWN if input_vector.y > 0 else Vector2.UP
 
 
+func get_cardinal_input() -> Vector2:
+	"""Get input but only allow cardinal (4-directional) movement, no diagonals."""
+	var input = Vector2.ZERO
+	
+	# Check vertical input first (priority)
+	if Input.is_action_pressed("down"):
+		input.y = 1
+	elif Input.is_action_pressed("up"):
+		input.y = -1
+	# Only check horizontal if vertical is not pressed
+	elif Input.is_action_pressed("right"):
+		input.x = 1
+	elif Input.is_action_pressed("left"):
+		input.x = -1
+	
+	return input
+
+
 
 func _ready() -> void:
 	current_player_state = PlayerState.IDLE
 	animated_sprite.play(ANIM_IDLE_SOUTH)
 
 func _physics_process(delta: float) -> void:
-	# Get input and update direction
-	direction = Input.get_vector("left", "right", "up", "down")
+	# Get cardinal input (no diagonal movement)
+	direction = get_cardinal_input()
 	
 	# Store last direction for idle animation
 	if direction != Vector2.ZERO:
