@@ -33,7 +33,7 @@ func returndirectioninwords(inputdirection):
 		Vector2.UP : return "north"
 		Vector2.RIGHT : return "east"
 		Vector2.LEFT : return "west"
-		_ : return 
+		_ : pass
 	
 
 func idleFunction(inputVector):
@@ -41,10 +41,10 @@ func idleFunction(inputVector):
 	
 	#managing animation
 	if dir != "west":
-		as2d.play("idle_" + dir)
+		as2d.play("idle" + dir)
 		as2d.flip_h = false
 	elif dir == "west":
-		as2d.play("idle_" + dir)
+		as2d.play("idle" + dir)
 		as2d.flip_h = true
 	
 	#managing variables 
@@ -56,10 +56,10 @@ func walkingFunction(inputVector):
 	
 	#managing animation
 	if dir != "west":
-		as2d.play("run_" + dir)
+		as2d.play("idle" + dir)
 		as2d.flip_h = false
 	elif dir == "west":
-		as2d.play("run_" + dir)
+		as2d.play("idle" + dir)
 		as2d.flip_h = true
 	
 	#managing variables 
