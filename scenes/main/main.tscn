@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://7chrdvlsxgg4" path="res://scenes/player/player.tscn" id="1_hyk8p"]
 [ext_resource type="Texture2D" uid="uid://d1kolfnpnuop8" path="res://scenes/etcassets/960a8a66-7e64-45ec-b67d-bf545a519c09 (1).jpg" id="1_raeie"]
+[ext_resource type="Script" uid="uid://bx1yusfbhyno8" path="res://scenes/main/reference.gd" id="2_hxu8e"]
 [ext_resource type="Texture2D" uid="uid://b3giax6urd8nl" path="res://scenes/etcassets/galletcity_tiles.png" id="3_hxu8e"]
 [ext_resource type="Texture2D" uid="uid://cj3dv0o3sxkd0" path="res://scenes/etcassets/volcanoe_tiles.png" id="4_nvumn"]
 [ext_resource type="Texture2D" uid="uid://ryyxjovur3nl" path="res://scenes/etcassets/TilesetWater.png" id="5_ou6is"]
@@ -1910,6 +1911,7 @@ texture_filter = 2
 position = Vector2(824, -179.00006)
 scale = Vector2(0.9412344, 0.9282375)
 texture = ExtResource("1_raeie")
+script = ExtResource("2_hxu8e")
 metadata/_edit_lock_ = true
 
 [node name="staticTileset" type="Node2D" parent="." unique_id=1119702489]
