@@ -212,6 +212,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_dovo2"]
 radius = 4.0
+height = 34.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gmlin"]
 height = 42.0
@@ -222,8 +223,7 @@ script = ExtResource("1_dovo2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=467257473]
 sprite_frames = SubResource("SpriteFrames_ioxgp")
-animation = &"walk_east"
-frame_progress = 0.49600923
+animation = &"idle_north"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2112844515]
 position = Vector2(0, 17)
@@ -231,7 +231,7 @@ rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_dovo2")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=533662530]
-zoom = Vector2(2, 2)
+zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
