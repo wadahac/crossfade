@@ -13,6 +13,9 @@ const ANIM_WALK_EAST = "walk_east"
 const ANIM_WALK_NORTH = "walk_north"
 
 
+@onready var firstlayer16: TileMapLayer = $"../staticTileset/layer 1/govtWall"
+
+
 #ts very important
 enum PlayerState {
 	IDLE = 0,
@@ -22,6 +25,9 @@ enum PlayerState {
 }
 
 var have_cycle := false
+
+#signals
+signal transparentTile(entered)
 
 var direction: Vector2
 var last_direction: Vector2 = Vector2.DOWN # Store last non-zero direction for idle animation
@@ -132,3 +138,19 @@ func _update_animation(state: PlayerState, direction: Vector2) -> void:
 	
 	animated_sprite.flip_h = should_flip
 	animated_sprite.play(animation_name)
+
+
+
+#managing a very cool function :]
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	print(body , "entered")
+	if body == firstlayer16 :
+		transparentTile.emit(true)
+		print("emited transparentTile")
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	print(body)
+	if body == firstlayer16:
+		transparentTile.emit(false)
+		print("emited transparentTile")
