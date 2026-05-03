@@ -223,7 +223,7 @@ script = ExtResource("1_dovo2")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=467257473]
 sprite_frames = SubResource("SpriteFrames_ioxgp")
-animation = &"idle_north"
+animation = &"idle_south"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2112844515]
 position = Vector2(0, 17)
