@@ -27,14 +27,16 @@ enum PlayerState {
 var have_cycle := false
 
 #signals
-signal transparentTile(entered)
+signal transparentTile(entered,whatEntered,inFront)
+
+var input_order: Array[Vector2] = []
 
 var direction: Vector2
 var last_direction: Vector2 = Vector2.DOWN # Store last non-zero direction for idle animation
 var current_player_state: PlayerState
 var speed : int = 100
 
-const SPEED_MULTIPLIER = 100  # Adjust this to control how fast the character moves
+const SPEED_MULTIPLIER = 1.80  # Adjust this to control how fast the character moves
 const CYCLESPEEDMULTIPLIER = 2.5 #Adjust this to control the speed of cycle
 
 func get_cardinal_direction(input_vector: Vector2) -> Vector2:
@@ -51,20 +53,45 @@ func get_cardinal_direction(input_vector: Vector2) -> Vector2:
 
 func get_cardinal_input() -> Vector2:
 	"""Get input but only allow cardinal (4-directional) movement, no diagonals."""
-	var input = Vector2.ZERO
-	
-	# Check vertical input first (priority)
-	if Input.is_action_pressed("down"):
-		input.y = 1
-	elif Input.is_action_pressed("up"):
-		input.y = -1
-	# Only check horizontal if vertical is not pressed
-	elif Input.is_action_pressed("right"):
-		input.x = 1
-	elif Input.is_action_pressed("left"):
-		input.x = -1
-	
-	return input
+
+
+	var directions = {
+		"right": Vector2.RIGHT,
+		"left": Vector2.LEFT,
+		"down": Vector2.DOWN,
+		"up": Vector2.UP
+	}
+
+	# Add newly pressed directions
+	for action in directions:
+		if Input.is_action_just_pressed(action):
+			input_order.erase(directions[action])
+			input_order.append(directions[action])
+
+	# Remove released directions
+	for action in directions:
+		if Input.is_action_just_released(action):
+			input_order.erase(directions[action])
+
+	# Return most recently pressed held direction
+	for i in range(input_order.size() - 1, -1, -1):
+		var dir = input_order[i]
+
+		match dir:
+			Vector2.RIGHT:
+				if Input.is_action_pressed("right"):
+					return dir
+			Vector2.LEFT:
+				if Input.is_action_pressed("left"):
+					return dir
+			Vector2.DOWN:
+				if Input.is_action_pressed("down"):
+					return dir
+			Vector2.UP:
+				if Input.is_action_pressed("up"):
+					return dir
+
+	return Vector2.ZERO
 
 func returnspeedmultiplier(inputmultiplier):
 	if have_cycle:
@@ -90,7 +117,7 @@ func _physics_process(delta: float) -> void:
 		last_direction = direction
 	
 	# Update movement
-	velocity = direction * speed * delta * returnspeedmultiplier(SPEED_MULTIPLIER)
+	velocity = direction * speed  * returnspeedmultiplier(SPEED_MULTIPLIER)
 	move_and_slide()
 	
 	# Update player state based on movement
@@ -139,18 +166,19 @@ func _update_animation(state: PlayerState, direction: Vector2) -> void:
 	animated_sprite.flip_h = should_flip
 	animated_sprite.play(animation_name)
 
+func is_in_front_of_player(target: Node2D) -> bool:
+	var diff = target.global_position - self.global_position
 
+	return diff.y < 0
 
 #managing a very cool function :] ie the tile fade
 func _on_tile_translucent_area_body_entered(body: Node2D) -> void:
 	print(body , "entered")
-	if body == firstlayer16 :
-		transparentTile.emit(true)
-		print("emited transparentTile")
+	transparentTile.emit(true,body,is_in_front_of_player(body))
+	print("emited transparentTile")
 
 
 func _on_tile_translucent_area_body_exited(body: Node2D) -> void:
 	print(body)
-	if body == firstlayer16:
-		transparentTile.emit(false)
-		print("emited transparentTile")
+	transparentTile.emit(false,body,is_in_front_of_player(body))
+	print("emited transparentTile")
