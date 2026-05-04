@@ -141,15 +141,15 @@ func _update_animation(state: PlayerState, direction: Vector2) -> void:
 
 
 
-#managing a very cool function :]
-func _on_area_2d_body_entered(body: Node2D) -> void:
+#managing a very cool function :] ie the tile fade
+func _on_tile_translucent_area_body_entered(body: Node2D) -> void:
 	print(body , "entered")
 	if body == firstlayer16 :
 		transparentTile.emit(true)
 		print("emited transparentTile")
 
 
-func _on_area_2d_body_exited(body: Node2D) -> void:
+func _on_tile_translucent_area_body_exited(body: Node2D) -> void:
 	print(body)
 	if body == firstlayer16:
 		transparentTile.emit(false)
