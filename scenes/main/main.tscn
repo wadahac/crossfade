@@ -3518,6 +3518,7 @@ scale = Vector2(2, 2)
 tile_set = SubResource("TileSet_38d3o")
 
 [node name="layer 1" type="Node2D" parent="staticTileset" unique_id=309595496]
+y_sort_enabled = true
 
 [node name="govtWall" type="TileMapLayer" parent="staticTileset/layer 1" unique_id=454240567]
 y_sort_enabled = true
