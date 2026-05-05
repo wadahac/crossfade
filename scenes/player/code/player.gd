@@ -31,6 +31,8 @@ signal transparentTile(entered,whatEntered,inFront)
 
 var input_order: Array[Vector2] = []
 
+
+
 var direction: Vector2
 var last_direction: Vector2 = Vector2.DOWN # Store last non-zero direction for idle animation
 var current_player_state: PlayerState
@@ -106,8 +108,10 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	if Input.is_action_just_pressed("DEBUG"):
 		have_cycle = !have_cycle
+	
+	
 
-func _physics_process(delta: float) -> void:
+func _physics_process(_delta: float) -> void:
 	# Get cardinal input (no diagonal movement)🥀
 	direction = get_cardinal_input()
 	"""#ihatecardinalmovement #justicefor8directionalmovement"""
@@ -166,19 +170,37 @@ func _update_animation(state: PlayerState, direction: Vector2) -> void:
 	animated_sprite.flip_h = should_flip
 	animated_sprite.play(animation_name)
 
-func is_in_front_of_player(target: Node2D) -> bool:
-	var diff = target.global_position - self.global_position
+# Returns true if the object is visually in front of the player
+# from the camera's POV in a top-down 2D game.
+#
+# Assumes:
+# - Higher Y = closer to camera/front
+# - Lower Y = farther/back
 
-	return diff.y < 0
+func is_object_in_front(target: Node2D) -> bool:
+	return target.global_position.y > global_position.y
 
 #managing a very cool function :] ie the tile fade
 func _on_tile_translucent_area_body_entered(body: Node2D) -> void:
+	var children = body.get_children()
+	var newChild
+	
+	if children != [] :
+		for i in children:
+			if i.get_class() == "Marker2D":
+				newChild = i
+	else:
+		newChild = body
+	
 	print(body , "entered")
-	transparentTile.emit(true,body,is_in_front_of_player(body))
+	transparentTile.emit(true,body,is_object_in_front(newChild))
+	
+	
+	print(is_object_in_front(body), "is the state of the fronting of the object")
 	print("emited transparentTile")
 
 
 func _on_tile_translucent_area_body_exited(body: Node2D) -> void:
 	print(body)
-	transparentTile.emit(false,body,is_in_front_of_player(body))
+	transparentTile.emit(false,body,is_object_in_front(body))
 	print("emited transparentTile")
