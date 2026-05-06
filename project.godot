@@ -54,6 +54,7 @@ DEBUG={
 2d_physics/layer_2="enemy"
 2d_physics/layer_3="ground"
 2d_physics/layer_4="interactable_objects"
+2d_physics/layer_5="structures"
 
 [physics]
 

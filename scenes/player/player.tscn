@@ -233,10 +233,12 @@ shape = SubResource("CircleShape2D_dovo2")
 debug_color = Color(0.5331176, 0.5383494, 0.5246366, 0.41960785)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=467257473]
+y_sort_enabled = true
 sprite_frames = SubResource("SpriteFrames_ioxgp")
 animation = &"idle_south"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2112844515]
+[node name="collider" type="CollisionShape2D" parent="." unique_id=2112844515]
+y_sort_enabled = true
 position = Vector2(0, 17)
 rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_dovo2")
@@ -246,10 +248,11 @@ zoom = Vector2(1.5, 1.5)
 position_smoothing_enabled = true
 position_smoothing_speed = 10.0
 
-[node name="Area2D" type="Area2D" parent="." unique_id=1439912118]
+[node name="hitbox" type="Area2D" parent="." unique_id=1439912118]
+y_sort_enabled = true
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1903058879]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hitbox" unique_id=1903058879]
 position = Vector2(0, 1)
 shape = SubResource("CapsuleShape2D_gmlin")
 debug_color = Color(0.89822793, 0.20063844, 0.6084427, 0.41960785)
